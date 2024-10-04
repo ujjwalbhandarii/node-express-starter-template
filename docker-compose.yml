@@ -1,0 +1,29 @@
+version: "3.4"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9999:9999"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@NodeExpressDB:5432/NodeExpressDB?schema=public
+      JWT_SECRET: super-secret
+      ACCESS_TOKEN_EXPIRATION_TIME: 30d
+      PORT: 9999
+
+  postgres:
+    container_name: NodeExpressDB
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: NodeExpressDB
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  postgres_data:
